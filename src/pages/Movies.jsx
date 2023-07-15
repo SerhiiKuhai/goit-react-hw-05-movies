@@ -16,11 +16,11 @@ const Movies = () => {
     if (query === '') return;
 
     getMoviesService(URL)
-      .then(({ results }) => {
+      .then( results => {
         setSearchMovies(results);
       })
       .catch(error => console.error(error));
-  }, [query]);
+  }, [URL]);
 
   const handleSubmit = e => {
     e.preventDefault();
