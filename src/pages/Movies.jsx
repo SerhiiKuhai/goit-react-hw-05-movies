@@ -20,7 +20,7 @@ const Movies = () => {
         setSearchMovies(results);
       })
       .catch(error => console.error(error));
-  }, [URL]);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
