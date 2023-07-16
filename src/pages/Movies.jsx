@@ -6,7 +6,7 @@ import { Button } from 'components/Button/Button.styled';
 import { Grid, GridItem } from 'components/Grid/Grid.styled';
 
 const Movies = () => {
-  const [searchMovies, setSearchMovies] = useState([]);
+  const [searchMovies, setSearchMovies] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const query = searchParams.get('query') ?? '';
@@ -16,11 +16,11 @@ const Movies = () => {
     if (query === '') return;
 
     getMoviesService(URL)
-      .then( results => {
+      .then(results => {
         setSearchMovies(results);
       })
       .catch(error => console.error(error));
-  };
+  }, [URL, query]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -44,17 +44,19 @@ const Movies = () => {
           <span>Search</span>
         </Button>
       </FormMovies>
-      <Grid>
-        {searchMovies.map(searchMovie => {
-          return (
-            <GridItem key={searchMovie.id}>
-              <Link to={`${searchMovie.id}`} state={{ from: location }}>
-                {searchMovie.original_title}
-              </Link>
-            </GridItem>
-          );
-        })}
-      </Grid>
+      {searchMovies && (
+        <Grid>
+          {searchMovies.results.map(searchMovie => {
+            return (
+              <GridItem key={searchMovie.id}>
+                <Link to={`${searchMovie.id}`} state={{ from: location }}>
+                  {searchMovie.original_title}
+                </Link>
+              </GridItem>
+            );
+          })}
+        </Grid>
+      )}
     </>
   );
 };
